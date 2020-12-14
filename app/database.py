@@ -21,14 +21,14 @@ SESSION = scoped_session(
     sessionmaker(autocommit=False, autoflush=False, bind=ENGINE, expire_on_commit=False)
 )
 
-class BaseBase(object):
+class SelfBase(object):
     def to_dict(self):
         model = {}
         for column in self.__table__.columns:
             model[column.name] = str(getattr(self, column.name))
         return model
 
-BASE = declarative_base(cls=BaseBase)
+BASE = declarative_base(cls=SelfBase)
 BASE.query = SESSION.query_property()
 
 @contextmanager
